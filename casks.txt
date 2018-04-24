@@ -1,0 +1,31 @@
+github
+atom
+iterm2
+vagrant
+virtualbox
+
+# slack
+skype
+zoomus
+
+# google-chrome
+firefox
+lastpass
+
+google-backup-and-sync
+google-drive-file-stream
+# dropbox
+
+# microsoft-office
+adobe-creative-cloud
+evernote
+omnidisksweeper
+spectacle
+
+basictex
+tex-live-utility
+zotero
+mendeley
+
+spotify
+vlc

@@ -1,0 +1,12 @@
+atom-notes
+markdown-writer
+tool-bar
+tool-bar-markdown-writer
+markdown-preview
+markdown-scroll-sync
+wordcount
+markdown-folding
+language-markdown
+
+
+# https://www.news47ell.com/how-to/atom-best-markdown-editor-mac/
