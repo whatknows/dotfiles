@@ -1,31 +1,39 @@
+### Development Tools ###
 github
 atom
 iterm2
 vagrant
 virtualbox
 
+### Communication Tools ###
 # slack
 skype
 zoomus
 
+### Web ###
 # google-chrome
 firefox
 lastpass
+epichrome
 
+### Cloud Files ###
 google-backup-and-sync
 google-drive-file-stream
 # dropbox
 
+### Productivity ###
 # microsoft-office
 adobe-creative-cloud
 evernote
 omnidisksweeper
 spectacle
 
+### Writing ###
 basictex
 tex-live-utility
 zotero
 mendeley
 
+### Entertainment ###
 spotify
 vlc
