@@ -72,7 +72,6 @@ brew update
 
 echo "Installing OS level packages..."
 # Install GNU core utilities (those that come with OS X are outdated)
-# brew tap homebrew/dupes
 brew install coreutils
 brew install gnu-sed --with-default-names
 brew install gnu-tar --with-default-names
@@ -87,52 +86,16 @@ brew install findutils
 brew install bash
 
 echo "Installing packages..."
-# PACKAGES=(
-    ack
-    autoconf
-    automake
-    boot2docker
-    ffmpeg
-    gettext
-    gifsicle
-    git
-    graphviz
-    hub
-    imagemagick
-    jq
-    libjpeg
-    libmemcached
-    lynx
-    markdown
-    memcached
-    mercurial
-    npm
-    pkg-config
-    python
-    python3
-    pypy
-    rabbitmq
-    rename
-    ssh-copy-id
-    terminal-notifier
-    the_silver_searcher
-    tmux
-    tree
-    vim
-    wget
-# )
-# brew install ${PACKAGES[@]}
 
-# comm -23 \
-#   <(sort brew.txt) \
-#   <( \
-#     { \
-#       brew ls --full-name; \
-#       brew cask ls | sed -e 's#^#Caskroom/cask/#'; \
-#     } \
-#     | sort \
-#   ) \
-#   | xargs brew install
+comm -23 \
+  <(sort brew.txt) \
+  <( \
+    { \
+      brew ls --full-name;
+    } \
+    | sort \
+  ) \
+  | xargs brew install
 
 echo "Cleaning up..."
 brew cleanup
@@ -140,26 +103,26 @@ brew cleanup
 echo "Adding 'brewup' alias…"
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 
-# #####
-# # INSTALL CASKS
-# #####
-#
-# echo "Installing cask..."
-# brew install caskroom/cask/brew-cask
-#
-# #####
-# # INSTALL CASK APPS
-# #####
-#
+#####
+# INSTALL CASKS
+#####
+
+echo "Installing cask..."
+brew install caskroom/cask/brew-cask
+
+#####
+# INSTALL CASK APPS
+#####
+
 comm -23 \
-  <(sort casks.txt) \
+  <(grep -v '^#' casks.txt | sort) \
   <( \
     { \
       brew cask ls --full-name \
     } \
     | sort \
   ) \
-  | xargs brew cask install
+  | xargs brew cask install --appdir=/Applications
 
 
 # Remove old taps
@@ -175,111 +138,42 @@ comm -13 \
   | xargs brew cask rm
 
 
-#
-# echo "Installing DEVELOPER cask apps..."
-# CASKS=(
-#     github
-#     atom
-#     iterm2
-#     vagrant
-#     virtualbox
-# )
-# brew cask install ${CASKS[@]}
-#
-# #Communication Apps
-# echo "Installing COMMUNICATION cask apps..."
-# CASKS=(
-#     slack
-#     skype
-#     zoomus
-# )
-# brew cask install ${CASKS[@]}
-#
-# # Web Apps
-# echo "Installing WEB cask apps..."
-# CASKS=(
-#     google-chrome
-#     firefox
-#     lastpass
-# )
-# brew cask install ${CASKS[@]}
-#
-# # File Storage
-# echo "Installing FILE STORAGE cask apps..."
-# CASKS=(
-#     google-backup-and-sync
-#     google-drive-file-stream
-#     dropbox
-# )
-# brew cask install ${CASKS[@]}
-#
-# #Productivity Apps
-# echo "Installing PRODUCTIVITY cask apps..."
-# CASKS=(
-#     microsoft-office
-#     adobe-creative-cloud
-#     evernote
-#     omnidisksweeper
-#     spectacle
-# )
-# brew cask install ${CASKS[@]}
-#
-# #Writing Apps
-# echo "Installing WRITING cask apps..."
-# CASKS=(
-#     basictex
-#     tex-live-utility
-#     pandoc
-#     pandoc-citeproc
-#     zotero
-#     mendeley
-# )
-# brew cask install ${CASKS[@]}
-#
-# #Entertainment
-# echo "Installing ENTERTAINMENT cask apps..."
-# CASKS=(
-#   spotify
-#   vlc
-# )
-# brew cask install ${CASKS[@]}
-#
-# echo "Installing fonts..."
-# brew tap caskroom/fonts
-# FONTS=(
-#     font-inconsolidata
-#     font-roboto
-#     font-clear-sans
-# )
-# brew cask install ${FONTS[@]}
-#
-# echo "Installing Python packages..."
-# PYTHON_PACKAGES=(
-#     ipython
-#     virtualenv
-#     virtualenvwrapper
-# )
-# sudo pip install ${PYTHON_PACKAGES[@]}
-#
-# echo "Installing Ruby gems"
-# RUBY_GEMS=(
-#     bundler
-#     filewatcher
-#     cocoapods
-# )
-# sudo gem install ${RUBY_GEMS[@]}
-#
-# #####
-# # ATOM PACKAGES
-# #####
-# apm install --packages-file atom-packages.txt
-#
-# #####
-# # INSTALL APP STORE software
-# #####
-# brew install mas
-# mas signin jedbrubaker@gmail.com
-#
-# # For this service, you have to search for the application includes
-# # -- Bear
-# mas install 1091189122
+echo "Installing fonts..."
+brew tap caskroom/fonts
+FONTS=(
+    font-inconsolidata
+    font-roboto
+    font-clear-sans
+)
+brew cask install ${FONTS[@]}
+
+echo "Installing Python packages..."
+PYTHON_PACKAGES=(
+    ipython
+    virtualenv
+    virtualenvwrapper
+)
+sudo pip install ${PYTHON_PACKAGES[@]}
+
+echo "Installing Ruby gems"
+RUBY_GEMS=(
+    bundler
+    filewatcher
+    cocoapods
+)
+sudo gem install ${RUBY_GEMS[@]}
+
+#####
+# ATOM PACKAGES
+#####
+apm install --packages-file atom-packages.txt
+
+#####
+# INSTALL APP STORE software
+#####
+brew install mas
+mas signin jedbrubaker@gmail.com
+
+# For this service, you have to search for the application includes
+# -- Bear
+mas install 1091189122
