@@ -141,9 +141,12 @@ comm -13 \
 echo "Installing fonts..."
 brew tap caskroom/fonts
 FONTS=(
-    font-inconsolidata
+    font-inconsolata
     font-roboto
     font-clear-sans
+    font-fontawesome
+    font-foundation-icons
+    font-open-iconic
 )
 brew cask install ${FONTS[@]}
 
