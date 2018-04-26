@@ -177,3 +177,5 @@ mas signin jedbrubaker@gmail.com
 # For this service, you have to search for the application includes
 # -- Bear
 mas install 1091189122
+# -- MonthlyCal Notifications Widget
+mas install 935250717
