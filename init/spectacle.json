@@ -40,11 +40,11 @@
 		"shortcut_name": "UndoLastMove"
 	},
 	{
-		"shortcut_key_binding": null,
+		"shortcut_key_binding": "shift+alt+cmd+d",
 		"shortcut_name": "MoveToPreviousDisplay"
 	},
 	{
-		"shortcut_key_binding": "ctrl+alt+cmd+m",
+		"shortcut_key_binding": "shift+alt+cmd+f",
 		"shortcut_name": "MoveToFullscreen"
 	},
 	{
@@ -60,7 +60,7 @@
 		"shortcut_name": "MoveToCenter"
 	},
 	{
-		"shortcut_key_binding": "ctrl+alt+cmd+right",
+		"shortcut_key_binding": "shift+alt+cmd+right",
 		"shortcut_name": "MoveToRightHalf"
 	},
 	{
