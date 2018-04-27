@@ -25,15 +25,31 @@ google-drive-file-stream
 # microsoft-office
 adobe-creative-cloud
 evernote
-omnidisksweeper
+
+### OS Tools ###
 spectacle
+go2shell
+omnidisksweeper
 
 ### Writing ###
 basictex
 tex-live-utility
 zotero
 mendeley
+grammarly
 
 ### Entertainment ###
 spotify
 vlc
+
+# Nicer plugins for QuickLook.
+qlcolorcode
+qlstephen
+qlmarkdown
+quicklook-json
+webpquicklook
+qlimagesize
+qlprettypatch
+quicklook-csv
+betterzipql
+suspicious-package
