@@ -32,3 +32,6 @@ tmux
 tree
 vim
 wget
+sfnt2woff
+sfnt2woff-zopfli
+woff2

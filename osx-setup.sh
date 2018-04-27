@@ -71,19 +71,35 @@ brew update
 ######
 
 echo "Installing OS level packages..."
-# Install GNU core utilities (those that come with OS X are outdated)
+# Install GNU core utilities (those that come with macOS are outdated).
+# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
 brew install coreutils
+# Install some other useful utilities like `sponge`.
+brew install moreutils
+# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
+brew install findutils
+
 brew install gnu-sed --with-default-names
 brew install gnu-tar --with-default-names
 brew install gnu-indent --with-default-names
 brew install gnu-which --with-default-names
 brew install grep --with-default-names
 
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
-brew install findutils
-
-# Install Bash 4
+# Install Bash 4.
+# Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
+# running `chsh`.
 brew install bash
+brew install bash-completion2
+
+# Switch to using brew-installed bash as default shell
+if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+  echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
+  chsh -s /usr/local/bin/bash;
+fi;
+
+# Install taps
+# Install font tools.
+brew tap bramstein/webfonttools
 
 echo "Installing packages..."
 
@@ -169,7 +185,7 @@ sudo gem install ${RUBY_GEMS[@]}
 #####
 # ATOM PACKAGES
 #####
-apm install --packages-file atom-packages.txt
+apm install --packages-file init/atom-packages.txt
 
 #####
 # INSTALL APP STORE software
