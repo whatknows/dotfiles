@@ -1,12 +1,16 @@
+# ATOM PACKAGES
+# Inspiration from these sites:
+# https://www.news47ell.com/how-to/atom-best-markdown-editor-mac/
+#
+# Install with the following command:
+# grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
+# (excludes #-ed out lines, and blank lines)
+
 atom-notes
 markdown-writer
 tool-bar
 tool-bar-markdown-writer
-markdown-preview
 markdown-scroll-sync
 wordcount
 markdown-folding
 language-markdown
-
-
-# https://www.news47ell.com/how-to/atom-best-markdown-editor-mac/

@@ -99,19 +99,22 @@ fi;
 
 # Install taps
 # Install font tools.
+echo "Installing fonts..."
+brew tap caskroom/fonts
 brew tap bramstein/webfonttools
 
 echo "Installing packages..."
 
 comm -23 \
-  <(sort brew.txt) \
+  <(grep -v '^#' init/brew.txt | sort) \
   <( \
     { \
-      brew ls --full-name;
+      brew list -verbose | awk '{print $9}';
     } \
     | sort \
   ) \
   | xargs brew install
+
 
 echo "Cleaning up..."
 brew cleanup
@@ -120,21 +123,15 @@ echo "Adding 'brewup' alias…"
 alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
 
 #####
-# INSTALL CASKS
-#####
-
-echo "Installing cask..."
-brew install caskroom/cask/brew-cask
-
-#####
 # INSTALL CASK APPS
 #####
 
+echo "Installing cask apps..."
 comm -23 \
-  <(grep -v '^#' casks.txt | sort) \
+  <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
   <( \
     { \
-      brew cask ls --full-name \
+      brew cask ls --full-name; \
     } \
     | sort \
   ) \
@@ -142,29 +139,32 @@ comm -23 \
 
 
 # Remove old taps
-comm -13 <(sort brew.txt) <(brew leaves | sort) \
+echo "Remove old taps..."
+comm -13 <(sort init/brew.txt) <(brew leaves | sort) \
   | xargs brew rm
 
 
 # Remove old cask taps
 # If it is no longer in casks.txt, it is gone!
+echo "Remove old casks..."
 comm -13 \
-  <(sort casks.txt) \
-  <(brew cask ls) \
+  <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
+  <( \
+    { \
+      brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g';
+    } \
+    | sort \
+  ) \
   | xargs brew cask rm
 
+  # s#^#Caskroom/cask/#'
 
-echo "Installing fonts..."
-brew tap caskroom/fonts
-FONTS=(
-    font-inconsolata
-    font-roboto
-    font-clear-sans
-    font-fontawesome
-    font-foundation-icons
-    font-open-iconic
-)
-brew cask install ${FONTS[@]}
+#####
+# PYTHON ENVIRONMENT CONFIG
+#####
+brew link python3
+brew cleanup python3
+
 
 echo "Installing Python packages..."
 PYTHON_PACKAGES=(
@@ -185,13 +185,13 @@ sudo gem install ${RUBY_GEMS[@]}
 #####
 # ATOM PACKAGES
 #####
-apm install --packages-file init/atom-packages.txt
+grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
 
 #####
 # INSTALL APP STORE software
 #####
-brew install mas
 mas signin jedbrubaker@gmail.com
+mas upgrade
 
 # For this service, you have to search for the application includes
 # -- Bear
