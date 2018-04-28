@@ -119,9 +119,6 @@ comm -23 \
 echo "Cleaning up..."
 brew cleanup
 
-echo "Adding 'brewup' alias…"
-alias brewup='brew update; brew upgrade; brew prune; brew cleanup; brew doctor'
-
 #####
 # INSTALL CASK APPS
 #####
@@ -173,6 +170,7 @@ PYTHON_PACKAGES=(
     virtualenvwrapper
 )
 sudo pip install ${PYTHON_PACKAGES[@]}
+sudo pip3 install ${PYTHON_PACKAGES[@]}
 
 echo "Installing Ruby gems"
 RUBY_GEMS=(
