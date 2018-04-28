@@ -25,7 +25,6 @@ pandoc
 pandoc-citeproc
 pkg-config
 python
-python3
 pypy
 rabbitmq
 rename
