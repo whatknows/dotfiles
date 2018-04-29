@@ -20,6 +20,7 @@ markdown
 memcached
 mercurial
 mas
+node
 npm
 pandoc
 pandoc-citeproc
