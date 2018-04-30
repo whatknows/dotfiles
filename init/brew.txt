@@ -2,7 +2,7 @@ ack
 autoconf
 automake
 bash
-bash-complete@2
+bash-completion@2
 boot2docker
 cask
 coreutils
@@ -11,12 +11,11 @@ findutils
 gettext
 gifsicle
 git
-gpg
+# gpg
 graphviz
 hub
 imagemagick
 jq
-libjpeg
 libmemcached
 lynx
 markdown
@@ -25,7 +24,6 @@ memcached
 mercurial
 moreutils
 node
-npm
 pandoc
 pandoc-citeproc
 pkg-config
@@ -44,3 +42,8 @@ tree
 vim
 wget
 woff2
+gnu-sed
+gnu-tar
+gnu-indent
+gnu-which
+grep
