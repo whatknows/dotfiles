@@ -28,6 +28,23 @@
 # - https://news.ycombinator.com/item?id=8402079
 # - http://notes.jerzygangi.com/the-best-pgp-tutorial-for-mac-os-x-ever/
 
+
+#####
+# FUNCTIONS
+#####
+
+# Run `dig` and display the most useful info
+# function brewifnew() {
+#   if [ ! $(brew ls | grep $1) ]; then
+#       echo Installing $1...
+#       brew install $1;
+#   fi
+# }
+
+
+#####
+# MAIN
+#####
 echo ""
 echo ""
 echo ""
@@ -72,18 +89,39 @@ brew update
 
 echo "Installing OS level packages..."
 # Install GNU core utilities (those that come with macOS are outdated).
-# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
-brew install coreutils
-# Install some other useful utilities like `sponge`.
-brew install moreutils
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
-brew install findutils
 
-brew install gnu-sed --with-default-names
-brew install gnu-tar --with-default-names
-brew install gnu-indent --with-default-names
-brew install gnu-which --with-default-names
-brew install grep --with-default-names
+# Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
+if test ! $(brew ls | grep coreutils); then
+    echo "Installing coreutils..."
+    brew install coreutils
+fi
+
+# Install some other useful utilities like `sponge`.
+if test ! $(brew ls | grep moreutils); then
+    echo "Installing moreutils..."
+    brew install moreutils
+fi
+
+# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
+if test ! $(brew ls | grep findutils); then
+    echo "Installing findutils..."
+    brew install findutils
+fi
+
+OS_PACKAGES=(
+    gnu-sed
+    gnu-tar
+    gnu-indent
+    gnu-which
+    grep
+)
+for p in ${OS_PACKAGES[@]}
+do
+  if test ! $(brew ls | grep ${p}); then
+    echo "Installing ${p}..."
+    brew install ${p} --with-default-names
+  fi
+done
 
 # Install Bash 4.
 # Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
@@ -135,64 +173,72 @@ comm -23 \
   | xargs brew cask install --appdir=/Applications
 
 
+#####
+# CLEAN UP!
+#####
+
 # Remove old taps
 echo "Remove old taps..."
-comm -13 <(sort init/brew.txt) <(brew leaves | sort) \
+comm -13 \
+  <(sort init/brew.txt) \
+  <( \
+      brew leaves | sed -e 's/bramstein\/webfonttools\///g' | sort \
+  ) \
   | xargs brew rm
 
-
-# Remove old cask taps
-# If it is no longer in casks.txt, it is gone!
-echo "Remove old casks..."
-comm -13 \
-  <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
-  <( \
-    { \
-      brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g';
-    } \
-    | sort \
-  ) \
-  | xargs brew cask rm
-
-  # s#^#Caskroom/cask/#'
-
-#####
-# PYTHON ENVIRONMENT CONFIG
-#####
-brew link python3
-brew cleanup python3
-
-
-echo "Installing Python packages..."
-PYTHON_PACKAGES=(
-    ipython
-    virtualenv
-    virtualenvwrapper
-)
-sudo pip install ${PYTHON_PACKAGES[@]}
-sudo pip3 install ${PYTHON_PACKAGES[@]}
-
-echo "Installing Ruby gems"
-RUBY_GEMS=(
-    bundler
-    filewatcher
-    cocoapods
-)
-sudo gem install ${RUBY_GEMS[@]}
-
-#####
-# ATOM PACKAGES
-#####
-grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
-
-#####
-# INSTALL APP STORE software
-#####
-mas signin jedbrubaker@gmail.com
-mas upgrade
-
-# For this service, you have to search for the application includes
-# -- Bear
-mas install 1091189122
-# -- MonthlyCal Notifications Widget
-mas install 935250717
+#
+# # Remove old cask taps
+# # If it is no longer in casks.txt, it is gone!
+# echo "Remove old casks..."
+# comm -13 \
+#   <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
+#   <( \
+#     { \
+#       brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g';
+#     } \
+#     | sort \
+#   ) \
+#   | xargs brew cask rm
+#
+#   # s#^#Caskroom/cask/#'
+#
+# #####
+# # PYTHON ENVIRONMENT CONFIG
+# #####
+# brew link python3
+# brew cleanup python3
+#
+#
+# echo "Installing Python packages..."
+# PYTHON_PACKAGES=(
+#     ipython
+#     virtualenv
+#     virtualenvwrapper
+# )
+# sudo pip install ${PYTHON_PACKAGES[@]}
+# sudo pip3 install ${PYTHON_PACKAGES[@]}
+#
+# echo "Installing Ruby gems"
+# RUBY_GEMS=(
+#     bundler
+#     filewatcher
+#     cocoapods
+# )
+# sudo gem install ${RUBY_GEMS[@]}
+#
+# #####
+# # ATOM PACKAGES
+# #####
+# grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
+#
+# #####
+# # INSTALL APP STORE software
+# #####
+# mas signin jedbrubaker@gmail.com
+# mas upgrade
+#
+# # For this service, you have to search for the application includes
+# # -- Bear
+# mas install 1091189122
+# # -- MonthlyCal Notifications Widget
+# mas install 935250717
