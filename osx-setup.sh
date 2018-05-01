@@ -126,8 +126,12 @@ done
 # Install Bash 4.
 # Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
 # running `chsh`.
-brew install bash
-brew install bash-completion2
+if test ! $(brew ls | grep -x bash); then
+  brew install bash
+fi
+if test ! $(brew ls | grep bash-completion@2); then
+  brew install bash-completion@2
+fi
 
 # Switch to using brew-installed bash as default shell
 if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
@@ -166,7 +170,7 @@ comm -23 \
   <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
   <( \
     { \
-      brew cask ls --full-name; \
+      brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g'; \
     } \
     | sort \
   ) \
@@ -186,59 +190,66 @@ comm -13 \
   ) \
   | xargs brew rm
 
-#
-# # Remove old cask taps
-# # If it is no longer in casks.txt, it is gone!
-# echo "Remove old casks..."
-# comm -13 \
-#   <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
-#   <( \
-#     { \
-#       brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g';
-#     } \
-#     | sort \
-#   ) \
-#   | xargs brew cask rm
-#
-#   # s#^#Caskroom/cask/#'
-#
-# #####
-# # PYTHON ENVIRONMENT CONFIG
-# #####
-# brew link python3
-# brew cleanup python3
-#
-#
-# echo "Installing Python packages..."
-# PYTHON_PACKAGES=(
-#     ipython
-#     virtualenv
-#     virtualenvwrapper
-# )
-# sudo pip install ${PYTHON_PACKAGES[@]}
-# sudo pip3 install ${PYTHON_PACKAGES[@]}
-#
-# echo "Installing Ruby gems"
-# RUBY_GEMS=(
-#     bundler
-#     filewatcher
-#     cocoapods
-# )
-# sudo gem install ${RUBY_GEMS[@]}
-#
-# #####
-# # ATOM PACKAGES
-# #####
-# grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
-#
-# #####
-# # INSTALL APP STORE software
-# #####
-# mas signin jedbrubaker@gmail.com
-# mas upgrade
-#
-# # For this service, you have to search for the application includes
-# # -- Bear
-# mas install 1091189122
-# # -- MonthlyCal Notifications Widget
-# mas install 935250717
+
+# Remove old cask taps
+# If it is no longer in casks.txt, it is gone!
+echo "Remove old casks..."
+comm -13 \
+  <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
+  <( \
+    { \
+      brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g';
+    } \
+    | sort \
+  ) \
+  | xargs brew cask rm
+
+  # s#^#Caskroom/cask/#'
+
+#####
+# PYTHON ENVIRONMENT CONFIG
+#####
+brew link python3
+brew cleanup python3
+
+
+echo "Installing Python packages..."
+PYTHON_PACKAGES=(
+    ipython
+    virtualenv
+    virtualenvwrapper
+)
+for p in ${PYTHON_PACKAGES[@]}
+do
+  if test ! $(pip list | grep '\<${p}\>\s'); then
+    sudo pip install ${p}
+  fi
+  if test ! $(pip3 list | grep '\<${p}\>\s'); then
+    sudo pip3 install ${p}
+  fi
+done
+
+echo "Installing Ruby gems..."
+RUBY_GEMS=(
+    bundler
+    filewatcher
+    cocoapods
+)
+sudo gem install ${RUBY_GEMS[@]}
+
+#####
+# ATOM PACKAGES
+#####
+grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
+
+#####
+# INSTALL APP STORE software
+#####
+mas signin jedbrubaker@gmail.com
+mas upgrade
+
+# For this service, you have to search for the application includes
+# -- Bear
+mas install 1091189122
+# -- MonthlyCal Notifications Widget
+mas install 935250717
