@@ -252,3 +252,13 @@ mas upgrade
 mas install 1091189122
 # -- MonthlyCal Notifications Widget
 mas install 935250717
+
+
+
+
+############
+## TROUBLE?
+############
+# 
+# Getting that git error about gpg? Try this hack:
+# > git config commit.gpgsign false
