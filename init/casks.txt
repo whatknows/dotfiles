@@ -1,30 +1,31 @@
 ### Development Tools ###
 github
-atom
+# atom # < managed
 iterm2
 vagrant
 virtualbox
 
 ### Communication Tools ###
-# slack
+slack
 skype
 zoomus
 
 ### Web ###
-# google-chrome
-firefox
+# google-chrome # < managed
+# firefox # < managed
 lastpass
 epichrome
 
 ### Cloud Files ###
 google-backup-and-sync
 google-drive-file-stream
-# dropbox
+# dropbox # < managed
 
 ### Productivity ###
-# microsoft-office
+microsoft-office
 adobe-creative-cloud
 evernote
+quip
 
 ### OS Tools ###
 spectacle

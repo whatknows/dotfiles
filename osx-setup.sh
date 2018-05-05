@@ -134,12 +134,11 @@ if test ! $(brew ls | grep bash-completion@2); then
 fi
 
 # Switch to using brew-installed bash as default shell
-if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+if ! fgrep '/usr/local/bin/bash' /etc/shells; then
   echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
   chsh -s /usr/local/bin/bash;
 fi;
 
-# Install taps
 # Install font tools.
 echo "Installing fonts..."
 brew tap caskroom/fonts

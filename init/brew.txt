@@ -11,7 +11,7 @@ findutils
 gettext
 gifsicle
 git
-# gpg
+gpg
 graphviz
 hub
 imagemagick
@@ -47,3 +47,5 @@ gnu-tar
 gnu-indent
 gnu-which
 grep
+# zsh
+# zsh-completions
