@@ -26,6 +26,7 @@ microsoft-office
 adobe-creative-cloud
 evernote
 quip
+pdftotext
 
 ### OS Tools ###
 spectacle
