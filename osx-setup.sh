@@ -50,7 +50,7 @@ echo ""
 echo ""
 echo ""
 echo ""
-echo "Starting bootstrapping..."
+echo "Start bootstrapping..."
 
 # echo "Creating an SSH key for you..."
 # ssh-keygen -t rsa
@@ -72,6 +72,12 @@ echo "Starting bootstrapping..."
 ######
 # INSTALL HOMEBREW
 ######
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "HOMEBREW"
 
 # Check for Homebrew, install if we don't have it
 if test ! $(which brew); then
@@ -86,7 +92,11 @@ brew update
 ######
 # Install OS level packages
 ######
-
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
 echo "Installing OS level packages..."
 # Install GNU core utilities (those that come with macOS are outdated).
 
@@ -123,6 +133,17 @@ do
   fi
 done
 
+
+######
+# INSTALL BASH
+######
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "Installing Bash..."
+
 # Install Bash 4.
 # Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
 # running `chsh`.
@@ -140,11 +161,22 @@ if ! fgrep '/usr/local/bin/bash' /etc/shells; then
 fi;
 
 # Install font tools.
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
 echo "Installing fonts..."
 brew tap caskroom/fonts
 brew tap bramstein/webfonttools
 
-echo "Installing packages..."
+# Install brews
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "Installing brews..."
 
 comm -23 \
   <(grep -v '^#' init/brew.txt | sort) \
@@ -163,8 +195,13 @@ brew cleanup
 #####
 # INSTALL CASK APPS
 #####
-
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
 echo "Installing cask apps..."
+
 comm -23 \
   <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
   <( \
@@ -208,9 +245,16 @@ comm -13 \
 #####
 # PYTHON ENVIRONMENT CONFIG
 #####
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "PYTHON"
+
+echo "Linking python3..."
 brew link python3
 brew cleanup python3
-
 
 echo "Installing Python packages..."
 PYTHON_PACKAGES=(
@@ -220,13 +264,25 @@ PYTHON_PACKAGES=(
 )
 for p in ${PYTHON_PACKAGES[@]}
 do
-  if test ! $(pip list | grep '\<${p}\>\s'); then
+  pip list | grep '\<${p}\>\s'
+  if [ $? -eq 0 ]; then
     sudo pip install ${p}
   fi
-  if test ! $(pip3 list | grep '\<${p}\>\s'); then
+  pip3 list | grep '\<${p}\>\s'
+  if [ $? -eq 0 ]; then
     sudo pip3 install ${p}
   fi
 done
+
+#####
+# RUBY GEMS
+#####
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "RUBY"
 
 echo "Installing Ruby gems..."
 RUBY_GEMS=(
@@ -234,20 +290,52 @@ RUBY_GEMS=(
     filewatcher
     cocoapods
 )
-sudo gem install ${RUBY_GEMS[@]}
+for p in ${RUBY_GEMS[@]}
+do
+  gem list | grep '\<${p}\>\s'
+  if [ $? -eq 0 ]; then
+    sudo gem install ${p}
+  fi
+done
 
 #####
 # ATOM PACKAGES
 #####
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "ATOM PACKAGES"
+
+echo "Upgrading..."
+apm upgrade
+
+echo "Installing new packages..."
 grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
 
 #####
 # INSTALL APP STORE software
 #####
-mas signin jedbrubaker@gmail.com
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "MACOS APP STORE"
+
+# Skip if logged in
+if test ! $(mas account); then
+  echo "Signing in..."
+  mas signin jedbrubaker@gmail.com
+fi
+
+# Upgrade
+echo "Upgrading..."
 mas upgrade
 
 # For this service, you have to search for the application includes
+echo "Installing..."
 # -- Bear
 mas install 1091189122
 # -- MonthlyCal Notifications Widget
@@ -259,6 +347,6 @@ mas install 935250717
 ############
 ## TROUBLE?
 ############
-# 
+#
 # Getting that git error about gpg? Try this hack:
 # > git config commit.gpgsign false
