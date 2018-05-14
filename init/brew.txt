@@ -11,7 +11,7 @@ findutils
 gettext
 gifsicle
 git
-gpg
+gnupg
 graphviz
 hub
 imagemagick
