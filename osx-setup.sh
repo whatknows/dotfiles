@@ -85,6 +85,10 @@ if test ! $(which brew); then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+# Fix settings to make Homebrew happy
+# These are recommendations from `brew doctor`
+sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin
+
 # Update homebrew recipes
 echo "Updating Homebrew..."
 brew update
@@ -182,7 +186,7 @@ comm -23 \
   <(grep -v '^#' init/brew.txt | sort) \
   <( \
     { \
-      brew list -verbose | awk '{print $9}';
+      brew list --full-name | awk '{print $9}';
     } \
     | sort \
   ) \
@@ -234,7 +238,7 @@ comm -13 \
   <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
   <( \
     { \
-      brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g';
+      brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g' | sed -e 's/homebrew\/cask-fonts\///g';
     } \
     | sort \
   ) \
@@ -289,6 +293,7 @@ RUBY_GEMS=(
     bundler
     filewatcher
     cocoapods
+    jekyll
 )
 for p in ${RUBY_GEMS[@]}
 do
@@ -297,6 +302,23 @@ do
     sudo gem install ${p}
   fi
 done
+
+#####
+# NODE PACKAGES
+#####
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "NODE"
+
+echo "Upgrading npm..."
+npm install -g npm
+
+npm install -g grunt-cli
+
+
 
 #####
 # ATOM PACKAGES
@@ -350,3 +372,5 @@ mas install 935250717
 #
 # Getting that git error about gpg? Try this hack:
 # > git config commit.gpgsign false
+# https://github.com/desktop/desktop/issues/1391
+# You might have to do it in the dir of the repo.

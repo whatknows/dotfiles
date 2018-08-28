@@ -27,6 +27,8 @@ adobe-creative-cloud
 evernote
 quip
 pdftotext
+screenflow
+alfred
 
 ### OS Tools ###
 spectacle
@@ -63,3 +65,4 @@ font-clear-sans
 font-fontawesome
 font-foundation-icons
 font-open-iconic
+font-titillium-web

@@ -23,6 +23,7 @@ mas
 memcached
 mercurial
 moreutils
+mosh
 node
 pandoc
 pandoc-citeproc
@@ -49,3 +50,16 @@ gnu-which
 grep
 # zsh
 # zsh-completions
+
+# Eternal terminal
+MisterTea/et/et
+
+terminal-notifier
+# As detailed: wiki/Devserver-operating-manual/desktop-notifications/
+# On your devserver, run: $ echo "alias fin='echo DONE'" >> ~/.bash_profile
+# In iTerm > Preferences > Profiles > (Your profile) > Advanced > Triggers - Edit:
+## Regular Expression: DONE
+## Action: Run Coprocess...
+## Parameters: /usr/local/bin/terminal-notifier -activate com.googlecode.iterm2 -title "DONE" -message ""
+## Instant: check
+# To get notified, append ; fin to your command (for example, $ arc build; fin).
