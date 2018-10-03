@@ -318,6 +318,11 @@ npm install -g npm
 
 npm install -g grunt-cli
 
+#####
+# VAGRANT
+#####
+vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+vagrant plugin install vagrant-aws
 
 
 #####
