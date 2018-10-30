@@ -28,6 +28,8 @@
 # - https://news.ycombinator.com/item?id=8402079
 # - http://notes.jerzygangi.com/the-best-pgp-tutorial-for-mac-os-x-ever/
 
+DEBUG=0
+
 
 #####
 # FUNCTIONS
@@ -40,6 +42,14 @@
 #       brew install $1;
 #   fi
 # }
+
+pause ()
+{
+  if [ $DEBUG -eq 1 ]
+  then
+    read -p "DEBUG: Press enter to continue"
+  fi
+}
 
 
 #####
@@ -62,12 +72,18 @@ echo "Start bootstrapping..."
 # ######
 # # INSTALL XCODE
 # ######
-#
+
 # # Install Xcode
 # echo "Installing xcode-stuff"
 # xcode-select --install
 # # Accept agreement
 # sudo xcodebuild -license
+
+######
+# CONFIGURE SYSTEM
+# These are fixes that are often requestd by the scripts below.
+######
+# sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin
 
 ######
 # INSTALL HOMEBREW
@@ -93,6 +109,15 @@ sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin
 echo "Updating Homebrew..."
 brew update
 
+pause
+
+# Update homebrew recipes
+echo "Upgrade brews..."
+brew upgrade
+
+# Force link for Ruby (this added based on error messages)
+brew link --overwrite ruby
+
 ######
 # Install OS level packages
 ######
@@ -110,17 +135,23 @@ if test ! $(brew ls | grep coreutils); then
     brew install coreutils
 fi
 
+pause
+
 # Install some other useful utilities like `sponge`.
 if test ! $(brew ls | grep moreutils); then
     echo "Installing moreutils..."
     brew install moreutils
 fi
 
+pause
+
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
 if test ! $(brew ls | grep findutils); then
     echo "Installing findutils..."
     brew install findutils
 fi
+
+pause
 
 OS_PACKAGES=(
     gnu-sed
@@ -134,9 +165,13 @@ do
   if test ! $(brew ls | grep ${p}); then
     echo "Installing ${p}..."
     brew install ${p} --with-default-names
+    pause
   fi
 done
 
+# Fix settings to make Homebrew happy
+# These are recommendations from `brew doctor`
+sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin
 
 ######
 # INSTALL BASH
@@ -153,15 +188,18 @@ echo "Installing Bash..."
 # running `chsh`.
 if test ! $(brew ls | grep -x bash); then
   brew install bash
+  pause
 fi
 if test ! $(brew ls | grep bash-completion@2); then
   brew install bash-completion@2
+  pause
 fi
 
 # Switch to using brew-installed bash as default shell
 if ! fgrep '/usr/local/bin/bash' /etc/shells; then
   echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
   chsh -s /usr/local/bin/bash;
+  pause
 fi;
 
 # Install font tools.
@@ -174,6 +212,8 @@ echo "Installing fonts..."
 brew tap caskroom/fonts
 brew tap bramstein/webfonttools
 
+pause
+
 # Install brews
 echo ""
 echo ""
@@ -182,19 +222,34 @@ echo ""
 echo ""
 echo "Installing brews..."
 
+if [ $DEBUG -eq 1 ]
+then
+  echo "The brews to include..."
+  grep -v '^#' init/brew.txt | sort
+fi
+
+if [ $DEBUG -eq 1 ]
+then
+  echo "The brews installed..."
+  brew list --full-name | awk '{print $1}'
+fi
+
 comm -23 \
   <(grep -v '^#' init/brew.txt | sort) \
   <( \
     { \
-      brew list --full-name | awk '{print $9}';
+      brew list --full-name | awk '{print $1}';
     } \
     | sort \
   ) \
   | xargs brew install
 
+pause
 
 echo "Cleaning up..."
 brew cleanup
+
+pause
 
 #####
 # INSTALL CASK APPS
@@ -216,6 +271,7 @@ comm -23 \
   ) \
   | xargs brew cask install --appdir=/Applications
 
+pause
 
 #####
 # CLEAN UP!
@@ -230,6 +286,7 @@ comm -13 \
   ) \
   | xargs brew rm
 
+pause
 
 # Remove old cask taps
 # If it is no longer in casks.txt, it is gone!
@@ -246,6 +303,8 @@ comm -13 \
 
   # s#^#Caskroom/cask/#'
 
+pause
+
 #####
 # PYTHON ENVIRONMENT CONFIG
 #####
@@ -260,11 +319,19 @@ echo "Linking python3..."
 brew link python3
 brew cleanup python3
 
+
+echo "Upgrade pip..."
+pip2 install --upgrade pip
+pip3 install --upgrade pip
+
+pause
+
 echo "Installing Python packages..."
 PYTHON_PACKAGES=(
     ipython
     virtualenv
     virtualenvwrapper
+    tweepy
 )
 for p in ${PYTHON_PACKAGES[@]}
 do
@@ -278,6 +345,8 @@ do
   fi
 done
 
+pause
+
 #####
 # RUBY GEMS
 #####
@@ -287,6 +356,9 @@ echo ""
 echo ""
 echo ""
 echo "RUBY"
+
+# Preemptive call
+gem pristine --all
 
 echo "Installing Ruby gems..."
 RUBY_GEMS=(
@@ -303,6 +375,8 @@ do
   fi
 done
 
+pause
+
 #####
 # NODE PACKAGES
 #####
@@ -315,14 +389,28 @@ echo "NODE"
 
 echo "Upgrading npm..."
 npm install -g npm
-
+pause
 npm install -g grunt-cli
+pause
 
 #####
 # VAGRANT
 #####
-vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
-vagrant plugin install vagrant-aws
+value=$( vagrant box list | grep '\<dummy\>\s' | wc -l )
+if [ $value -eq 0 ];
+then
+    vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+fi
+done
+
+value=$( vagrant plugin list | grep '\<vagrant-aws\>\s' | wc -l )
+if [ $value -eq 0 ];
+then
+    vagrant plugin install vagrant-aws
+fi
+done
+
+pause
 
 
 #####
@@ -340,6 +428,8 @@ apm upgrade
 
 echo "Installing new packages..."
 grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
+
+pause
 
 #####
 # INSTALL APP STORE software
@@ -367,6 +457,10 @@ echo "Installing..."
 mas install 1091189122
 # -- MonthlyCal Notifications Widget
 mas install 935250717
+# -- Amphetamine
+mas install 937984704
+# -- TweetDeck
+mas install 485812721
 
 
 
