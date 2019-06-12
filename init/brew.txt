@@ -39,6 +39,7 @@ terminal-notifier
 the_silver_searcher
 tldr
 tmux
+travis
 tree
 vim
 wget
