@@ -11,7 +11,7 @@ markdown-writer
 tool-bar
 tool-bar-markdown-writer
 markdown-scroll-sync
-wordcount
+# wordcount
 markdown-folding
 language-markdown
 hydrogen
