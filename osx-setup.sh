@@ -202,6 +202,19 @@ if ! fgrep '/usr/local/bin/bash' /etc/shells; then
   pause
 fi;
 
+# Install Bash-It
+git clone --depth=1 https://github.com/Bash-it/bash-it.git ./.bash_it
+./.bash_it/install.sh
+
+# To show the available aliases/completions/plugins, type one of the following:
+#   bash-it show aliases
+#   bash-it show completions
+#   bash-it show plugins
+
+
+# Enable updated bash...
+source ~/.bash_profile
+
 # Install font tools.
 echo ""
 echo ""
@@ -401,14 +414,12 @@ if [ $value -eq 0 ];
 then
     vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 fi
-done
 
 value=$( vagrant plugin list | grep '\<vagrant-aws\>\s' | wc -l )
 if [ $value -eq 0 ];
 then
     vagrant plugin install vagrant-aws
 fi
-done
 
 pause
 

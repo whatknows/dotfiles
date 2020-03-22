@@ -1,6 +1,7 @@
 ### Development Tools ###
 github
 # atom # < managed by FB
+docker
 iterm2
 vagrant
 virtualbox
