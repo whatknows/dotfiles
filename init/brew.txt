@@ -53,7 +53,7 @@ grep
 # zsh-completions
 
 # Eternal terminal
-MisterTea/et/et
+# MisterTea/et/et
 
 terminal-notifier
 # As detailed: wiki/Devserver-operating-manual/desktop-notifications/
