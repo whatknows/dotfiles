@@ -176,35 +176,35 @@ sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin
 ######
 # INSTALL BASH
 ######
-echo ""
-echo ""
-echo ""
-echo ""
-echo ""
-echo "Installing Bash..."
+# echo ""
+# echo ""
+# echo ""
+# echo ""
+# echo ""
+# echo "Installing Bash..."
 
 # Install Bash 4.
 # Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
 # running `chsh`.
-if test ! $(brew ls | grep -x bash); then
-  brew install bash
-  pause
-fi
-if test ! $(brew ls | grep bash-completion@2); then
-  brew install bash-completion@2
-  pause
-fi
+# if test ! $(brew ls | grep -x bash); then
+#   brew install bash
+#   pause
+# fi
+# if test ! $(brew ls | grep bash-completion@2); then
+#   brew install bash-completion@2
+#   pause
+# fi
 
 # Switch to using brew-installed bash as default shell
-if ! fgrep '/usr/local/bin/bash' /etc/shells; then
-  echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
-  chsh -s /usr/local/bin/bash;
-  pause
-fi;
+# if ! fgrep '/usr/local/bin/bash' /etc/shells; then
+#   echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
+#   chsh -s /usr/local/bin/bash;
+#   pause
+# fi;
 
 # Install Bash-It
-git clone --depth=1 https://github.com/Bash-it/bash-it.git ./.bash_it
-./.bash_it/install.sh
+# git clone --depth=1 https://github.com/Bash-it/bash-it.git ./.bash_it
+# ./.bash_it/install.sh
 
 # To show the available aliases/completions/plugins, type one of the following:
 #   bash-it show aliases
@@ -213,7 +213,7 @@ git clone --depth=1 https://github.com/Bash-it/bash-it.git ./.bash_it
 
 
 # Enable updated bash...
-source ~/.bash_profile
+# source ~/.bash_profile
 
 # Install font tools.
 echo ""
@@ -222,7 +222,7 @@ echo ""
 echo ""
 echo ""
 echo "Installing fonts..."
-brew tap caskroom/fonts
+brew tap homebrew/cask-fonts
 brew tap bramstein/webfonttools
 
 pause
@@ -472,7 +472,10 @@ mas install 935250717
 mas install 937984704
 # -- TweetDeck
 mas install 485812721
-
+# -- Facebook Messenger
+mas install 1480068668
+# -- Twitter
+mas install 1482454543
 
 
 
