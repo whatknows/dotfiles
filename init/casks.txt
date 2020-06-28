@@ -1,6 +1,6 @@
 ### Development Tools ###
 github
-# atom # < managed by FB
+atom
 docker
 iterm2
 vagrant
@@ -12,15 +12,18 @@ skype
 zoomus
 
 ### Web ###
-# google-chrome # < managed
-# firefox # < managed
+google-chrome
+# < managed
+firefox
+# < managed
 lastpass
 epichrome
 
 ### Cloud Files ###
 google-backup-and-sync
 google-drive-file-stream
-# dropbox # < managed
+dropbox
+# < managed
 
 ### Productivity ###
 microsoft-office
@@ -60,10 +63,14 @@ betterzip
 suspicious-package
 
 ### Fonts ###
-font-inconsolata
-font-roboto
-font-clear-sans
-font-fontawesome
-font-foundation-icons
-font-open-iconic
-font-titillium-web
+#font-inconsolata
+#font-roboto
+#font-clear-sans
+#font-fontawesome
+#font-foundation-icons
+#font-open-iconic
+#font-titillium
+
+# Misc
+# Screensaver
+aerial
