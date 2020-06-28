@@ -103,7 +103,8 @@ fi
 
 # Fix settings to make Homebrew happy
 # These are recommendations from `brew doctor`
-sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin
+sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin /usr/local/bin
+chmod u+w /usr/local/bin
 
 # Update homebrew recipes
 echo "Updating Homebrew..."
@@ -115,8 +116,11 @@ pause
 echo "Upgrade brews..."
 brew upgrade
 
-# Force link for Ruby (this added based on error messages)
+# Force link (this added based on error messages)
+brew link --overwrite python
 brew link --overwrite ruby
+brew link --overwrite mercurial
+brew link --overwrite bash-completion@2
 
 ######
 # Install OS level packages
@@ -171,7 +175,7 @@ done
 
 # Fix settings to make Homebrew happy
 # These are recommendations from `brew doctor`
-sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin
+sudo chown -R $(whoami) /usr/local/lib /usr/local/sbin /usr/local/bin
 
 ######
 # INSTALL BASH
@@ -422,6 +426,14 @@ then
 fi
 
 pause
+
+
+#####
+# DOCKER CONFIGURE
+#####
+# https://pilsniak.com/how-to-install-docker-on-mac-os-using-brew/
+# sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
+# sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
 
 
 #####
