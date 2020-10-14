@@ -23,7 +23,7 @@ mas
 memcached
 mercurial
 moreutils
-mosh
+#mosh
 node
 pandoc
 pandoc-citeproc

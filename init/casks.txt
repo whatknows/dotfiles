@@ -29,7 +29,7 @@ dropbox
 microsoft-office
 adobe-creative-cloud
 evernote
-quip
+#quip
 pdftotext
 screenflow
 alfred
