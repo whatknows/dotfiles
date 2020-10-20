@@ -27,7 +27,7 @@ dropbox
 
 ### Productivity ###
 microsoft-office
-adobe-creative-cloud
+#adobe-creative-cloud
 evernote
 #quip
 pdftotext
