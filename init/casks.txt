@@ -9,7 +9,8 @@ virtualbox
 ### Communication Tools ###
 slack
 skype
-zoomus
+# zoomus # outdated
+zoom
 
 ### Web ###
 google-chrome
