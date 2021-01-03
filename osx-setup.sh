@@ -28,7 +28,7 @@
 # - https://news.ycombinator.com/item?id=8402079
 # - http://notes.jerzygangi.com/the-best-pgp-tutorial-for-mac-os-x-ever/
 
-DEBUG=0
+DEBUG=1
 
 
 #####
@@ -134,7 +134,7 @@ echo "Installing OS level packages..."
 # Install GNU core utilities (those that come with macOS are outdated).
 
 # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
-if test ! $(brew ls | grep coreutils); then
+if test ! $(brew list --formula | grep coreutils); then
     echo "Installing coreutils..."
     brew install coreutils
 fi
@@ -142,7 +142,7 @@ fi
 pause
 
 # Install some other useful utilities like `sponge`.
-if test ! $(brew ls | grep moreutils); then
+if test ! $(brew list --formula | grep moreutils); then
     echo "Installing moreutils..."
     brew install moreutils
 fi
@@ -150,7 +150,7 @@ fi
 pause
 
 # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
-if test ! $(brew ls | grep findutils); then
+if test ! $(brew list --formula | grep findutils); then
     echo "Installing findutils..."
     brew install findutils
 fi
@@ -166,7 +166,7 @@ OS_PACKAGES=(
 )
 for p in ${OS_PACKAGES[@]}
 do
-  if test ! $(brew ls | grep ${p}); then
+  if test ! $(brew list --formula | grep ${p}); then
     echo "Installing ${p}..."
     brew install ${p} --with-default-names
     pause
@@ -245,17 +245,21 @@ then
   grep -v '^#' init/brew.txt | sort
 fi
 
+pause
+
 if [ $DEBUG -eq 1 ]
 then
   echo "The brews installed..."
-  brew list --full-name | awk '{print $1}'
+  brew list --full-name --formula | awk '{print $1}'
 fi
+
+pause
 
 comm -23 \
   <(grep -v '^#' init/brew.txt | sort) \
   <( \
     { \
-      brew list --full-name | awk '{print $1}';
+      brew list --full-name --formula | awk '{print $1}';
     } \
     | sort \
   ) \
@@ -282,7 +286,7 @@ comm -23 \
   <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
   <( \
     { \
-      brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g'; \
+      brew list --cask --full-name | sed -e 's/caskroom\/fonts\///g'; \
     } \
     | sort \
   ) \
@@ -295,32 +299,32 @@ pause
 #####
 
 # Remove old taps
-echo "Remove old taps..."
-comm -13 \
-  <(sort init/brew.txt) \
-  <( \
-      brew leaves | sed -e 's/bramstein\/webfonttools\///g' | sort \
-  ) \
-  | xargs brew rm
-
-pause
+# echo "Remove old taps..."
+# comm -13 \
+#   <(sort init/brew.txt) \
+#   <( \
+#       brew leaves | sed -e 's/bramstein\/webfonttools\///g' | sort \
+#   ) \
+#   | xargs brew rm
+#
+# pause
 
 # Remove old cask taps
 # If it is no longer in casks.txt, it is gone!
-echo "Remove old casks..."
-comm -13 \
-  <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
-  <( \
-    { \
-      brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g' | sed -e 's/homebrew\/cask-fonts\///g';
-    } \
-    | sort \
-  ) \
-  | xargs brew cask rm
-
-  # s#^#Caskroom/cask/#'
-
-pause
+# echo "Remove old casks..."
+# comm -13 \
+#   <(grep -v '^#' init/casks.txt | grep -v -e '^$' | sort) \
+#   <( \
+#     { \
+#       brew cask ls --full-name | sed -e 's/caskroom\/fonts\///g' | sed -e 's/homebrew\/cask-fonts\///g';
+#     } \
+#     | sort \
+#   ) \
+#   | xargs brew cask rm
+#
+#   # s#^#Caskroom/cask/#'
+#
+# pause
 
 #####
 # FINDER EXTENSION PERMISSIONS
