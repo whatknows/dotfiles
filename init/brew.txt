@@ -18,6 +18,7 @@ imagemagick
 jq
 libmemcached
 lynx
+mactex
 markdown
 mas
 memcached
