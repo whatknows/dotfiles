@@ -28,7 +28,7 @@
 # - https://news.ycombinator.com/item?id=8402079
 # - http://notes.jerzygangi.com/the-best-pgp-tutorial-for-mac-os-x-ever/
 
-DEBUG=1
+DEBUG=0
 
 
 #####

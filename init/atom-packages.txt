@@ -14,5 +14,6 @@ markdown-scroll-sync
 # wordcount
 markdown-folding
 language-markdown
-hydrogen
+# hydrogen
 atom-beautify
+atom-latex
