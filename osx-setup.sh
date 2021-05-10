@@ -481,6 +481,27 @@ grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
 
 pause
 
+
+#####
+# LaTeX PACKAGES
+#####
+echo ""
+echo ""
+echo ""
+echo ""
+echo ""
+echo "LaTeX PACKAGES"
+
+# echo "Upgrading..."
+sudo tlmgr update --self
+sudo tlmgr update --all
+
+echo "Installing new packages..."
+# grep -v '^#' init/atom-packages.txt | grep -v -e '^$' | xargs apm install
+sudo tlmgr install xargs
+
+pause
+
 #####
 # INSTALL APP STORE software
 #####

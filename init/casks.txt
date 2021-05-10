@@ -41,7 +41,6 @@ go2shell
 omnidisksweeper
 
 ### Writing ###
-basictex
 tex-live-utility
 zotero
 mendeley
