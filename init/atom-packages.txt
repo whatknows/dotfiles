@@ -17,3 +17,5 @@ language-markdown
 # hydrogen
 atom-beautify
 atom-latex
+open-terminal-here
+platformio-ide-terminal
